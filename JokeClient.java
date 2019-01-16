@@ -56,11 +56,11 @@ public class JokeClient{
                 // Get the domain to look up
                 request = in.readLine();
                 
-                if (request != "quit"){
+                if (!request.equals("quit")){
                     requestJokeOrProverb(serverName);
                 }
                     
-            } while (request != "quit");
+            } while (!request.equals("quit"));
 
             System.out.println("Cancelled by user request");
         } catch(IOException e){

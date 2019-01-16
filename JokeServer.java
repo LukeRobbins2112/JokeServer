@@ -70,7 +70,7 @@ class Worker extends Thread{
                 String domain;
                 domain = in.readLine();
                 
-                if (domain != null){
+                if (!domain.equals("quit")){
                     // Look up the address, print
                     printJokeOrProverb(out);
                 }
