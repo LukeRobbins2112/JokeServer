@@ -1,0 +1,28 @@
+
+
+- At first, just return a joke at soon as client connects. Basically just modify InetServer
+    - Maybe only send a joke if requested? I.e. client sends "joke" command
+- Add ability to toggle between joke and proverb modes
+    - At this stage, any client can toggle
+    - Depending on the joke/proverb flag, return a single joke or proverb
+- Add output on server as well
+    - Log the client domain + port on connection
+    - Log all requests, e.g. "joke", "proverb"
+    - Log all the responses, e.g. the individual jokes/proverbs themselves
+- Add persistent logging to server 
+    - Use system calls for opening/reading/writing files
+    - Output all server output to this log
+    - TODO: see if you can use Windows/Linux system calls
+- Add more jokes/proverbs so you have a list of 4 each
+    - Maintain indices for the current joke/proverb, and increment at each respective requested
+    - At first, just pretend there is a single client, and maintain a single counter for jokes/proverbs
+        - Once you give the final joke/proverb, print out "JOKE CYCLE COMPLETED" or "PROVERB CYCLE COMPLETED.". Then start from beginning
+    - Once multiple clients are to be supported, maintain indices for each respective client
+- Add functionality to handle multiple clients
+    - Each client has its own indices for the current joke/proverb
+    - But there is a single joke/proverb toggle (I think), which is maintained by the Admin
+    - Might want to have a collection of Client objects with this maintenance state
+- Add randomization to joke/proverb cycling
+    - Use random number generator to continuously generate an index; while the index has already been told keep going
+    - Then return the joke/proverb, and increment the counter so we know if we've completed all jokes/proverbs
+    - If we've done the whole cycle, clear the marked jokes & zero the counter
