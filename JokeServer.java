@@ -30,12 +30,19 @@ In separate windows:
 import java.io.*;  // Include all IO libraries
 import java.net.*; // Include all networking libraries
 
+enum MESSAGE_TYPE{
+    JOKE,
+    PROVERB;
+}
+
 // Worker class will be used to perform some function for each connection
 // Each new Worker is launched in an individual thread
 class Worker extends Thread{
 
     // Data -> Socket object, assigned based on what Worker is given by the JokeServer
     private Socket socket;
+
+    private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     private static String proverbs[] = {
         "Don’t put off until tomorrow what you can do today",
         "The pen is mightier than the sword",
@@ -70,7 +77,11 @@ class Worker extends Thread{
                 String domain;
                 domain = in.readLine();
                 
-                if (!domain.equals("quit")){
+                if (domain.equals("TOGGLE_JOKE_PROVERB_MODE")){
+                    messageType = (messageType == MESSAGE_TYPE.JOKE) ? MESSAGE_TYPE.PROVERB : MESSAGE_TYPE.JOKE;
+                    System.out.printf("MODE SET TO %s\n", ((messageType == MESSAGE_TYPE.JOKE) ? "JOKE" : "PROVERB"));
+                }
+                else if (!domain.equals("quit")){
                     // Look up the address, print
                     printJokeOrProverb(out);
                 }
@@ -93,7 +104,13 @@ class Worker extends Thread{
             out.println("Request to print out joke/proverb received");
 
             // TODO: right now just prints out the same joke, with no iterating or randomization
-            out.println(jokes[0]);
+            if (messageType == MESSAGE_TYPE.JOKE){
+                out.println(jokes[0]);
+            }
+            else{
+                out.println(proverbs[0]);
+            }
+            
     }
 
 }
