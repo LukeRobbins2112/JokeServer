@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - JokeClientAdmin",
+            "request": "launch",
+            "mainClass": "JokeClientAdmin",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - JokeClient",
+            "request": "launch",
+            "mainClass": "JokeClient",
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - JokeServer",
+            "request": "launch",
+            "mainClass": "JokeServer",
+            "console": "integratedTerminal"
+        }
+    ]
+}
