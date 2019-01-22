@@ -41,7 +41,10 @@ enum MESSAGE_TYPE{
 class ClientState{
 
     public int clientID;
-
+    int [] jokeOrder = {0, 1, 2, 3};
+    int [] proverbOrder = {0, 1, 2, 3};
+    int jokeIndex = 0;
+    int proverbIndex = 0;
 }
 
 
@@ -51,6 +54,7 @@ class Worker extends Thread{
 
     // Data -> Socket object, assigned based on what Worker is given by the JokeServer
     private Socket socket;
+    private static HashMap<Integer, ClientState> clientState = new HashMap<>();
 
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     private static String proverbs[] = {
