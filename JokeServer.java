@@ -29,11 +29,20 @@ In separate windows:
 
 import java.io.*;  // Include all IO libraries
 import java.net.*; // Include all networking libraries
+import java.util.HashMap;
+import java.util.Random;
 
 enum MESSAGE_TYPE{
     JOKE,
     PROVERB;
 }
+
+class ClientState{
+
+    public int clientID;
+
+}
+
 
 // Worker class will be used to perform some function for each connection
 // Each new Worker is launched in an individual thread
