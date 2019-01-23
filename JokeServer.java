@@ -40,7 +40,7 @@ enum MESSAGE_TYPE{
 
 class ClientState{
 
-    public int clientID;
+    public int clientID = -1;
     int [] jokeOrder = {0, 1, 2, 3};
     int [] proverbOrder = {0, 1, 2, 3};
     int jokeIndex = 0;
@@ -102,7 +102,7 @@ class Worker extends Thread{
                 }
                 else {
                     // Look up the address, print
-                    printJokeOrProverb(out);
+                    printJokeOrProverb(out, Integer.parseInt(domain));
                 }
                 
                
@@ -118,17 +118,42 @@ class Worker extends Thread{
         }
     }
 
-    static void printJokeOrProverb(PrintStream out){
+    static void printJokeOrProverb(PrintStream out, int clientID){
 
             // Alert client that you are looking up the domain
             out.println("Request to print out joke/proverb received");
 
-            // TODO: right now just prints out the same joke, with no iterating or randomization
-            if (messageType == MESSAGE_TYPE.JOKE){
-                out.println(jokes[0]);
+            // Look up or create client state entry
+            ClientState cState;
+
+            if (clientState.containsKey(clientID)){
+                cState = clientState.get(clientID);
             }
             else{
-                out.println(proverbs[0]);
+                cState = new ClientState();
+                cState.clientID = clientID;
+                clientState.put(clientID, cState);
+            }
+
+            if (messageType == MESSAGE_TYPE.JOKE){
+
+                if (cState.jokeIndex == cState.jokeOrder.length){
+                    out.print("JOKE CYCLE COMPLETED\n");
+                    cState.jokeIndex = 0;
+                }
+
+                int joke = cState.jokeOrder[cState.jokeIndex++];
+                out.println(jokes[joke]);
+            }
+            else{
+
+                if (cState.proverbIndex == cState.proverbOrder.length){
+                    out.print("PROVERB CYCLE COMPLETED\n");
+                    cState.proverbIndex = 0;
+                }
+
+                int proverb = cState.proverbOrder[cState.proverbIndex++];
+                out.println(proverbs[proverb]);
             }
             
     }

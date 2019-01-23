@@ -75,7 +75,7 @@ public class JokeClient{
              toServer = new PrintStream(this.socket.getOutputStream());
 
              // Send the domain name our request
-             toServer.println("next");
+             toServer.println(Integer.toString(this.clientID));
 
              // Flush so that each request doesn't include anything left over in the buffer
              toServer.flush();
