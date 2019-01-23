@@ -54,6 +54,7 @@ class Worker extends Thread{
 
     // Data -> Socket object, assigned based on what Worker is given by the JokeServer
     private Socket socket;
+    private int currClientID;
     private static HashMap<Integer, ClientState> clientState = new HashMap<>();
 
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
@@ -73,6 +74,7 @@ class Worker extends Thread{
     // Constructor - takes Socket object as argument
     Worker (Socket s){
         this.socket = s;
+        this.currClientID = s.getInetAddress().hashCode();
     }
 
     // Overloading Thread function

@@ -29,9 +29,17 @@ In separate windows:
 
 import java.io.*;   // Import all IO libraries
 import java.net.*;  // Import networking libraries
+import java.util.Random;
 
 public class JokeClient{
 
+    public int clientID;
+
+    public JokeClient(){
+        Random r = new Random();
+        int rand = r.nextInt(1000000000);
+        this.clientID = rand; // assign random number to client as ID
+    }
     public static void main(String[] args){
 
         // To be assigned - either user supplied or defaulted to "localhost"
@@ -66,6 +74,10 @@ public class JokeClient{
         } catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    static void connectToServer(String serverName){
+        
     }
 
 
