@@ -113,9 +113,6 @@ class ClientMain{
 
         System.out.println("Luke Robbins's Joke Client, 1.8\n");
         System.out.println("Using server: " + serverName + ", Port: 45678");  // Port is hard set
-
-        // Open connection
-        jokeClient.connectToServer(serverName);
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -130,7 +127,9 @@ class ClientMain{
                 request = in.readLine();
                 
                 if (!request.equals("quit")){
+                    jokeClient.connectToServer(serverName);
                     jokeClient.requestJokeOrProverb();
+                    jokeClient.closeSocket();
                 }
                     
             } while (!request.equals("quit"));
@@ -140,7 +139,6 @@ class ClientMain{
             e.printStackTrace();
         }
 
-        jokeClient.closeSocket();
     }
 
 }
