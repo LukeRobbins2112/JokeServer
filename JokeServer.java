@@ -74,7 +74,6 @@ class Worker extends Thread{
     // Constructor - takes Socket object as argument
     Worker (Socket s){
         this.socket = s;
-        this.currClientID = s.getInetAddress().hashCode();
     }
 
     // Overloading Thread function

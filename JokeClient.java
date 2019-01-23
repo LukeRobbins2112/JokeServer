@@ -76,10 +76,6 @@ public class JokeClient{
         }
     }
 
-    static void connectToServer(String serverName){
-        
-    }
-
 
     static void requestJokeOrProverb(String serverName){
         
