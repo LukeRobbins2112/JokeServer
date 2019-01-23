@@ -33,67 +33,46 @@ import java.util.Random;
 
 public class JokeClient{
 
-    public int clientID;
+    int clientID;
+    Socket socket;
 
     public JokeClient(){
         Random r = new Random();
         int rand = r.nextInt(1000000000);
         this.clientID = rand; // assign random number to client as ID
     }
-    public static void main(String[] args){
 
-        // To be assigned - either user supplied or defaulted to "localhost"
-        String serverName;
-
-        // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
-        if (args.length < 1) serverName = "localhost";
-        else serverName = args[0];
-
-        System.out.println("Luke Robbins's Joke Client, 1.8\n");
-        System.out.println("Using server: " + serverName + ", Port: 45678");  // Port is hard set
-        
-        // Read from stdin to read input
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-
+    void connectToServer(String serverName){
+        // Connect to Joke server at given server name & port
+        // Port is hardcoded here at 45678
+        // serverName is defauled to localhost, so in this case 127.0.0.1:45678
         try{
-            String request;
-            do{
-                System.out.print("Enter 'next' to receive the next joke or proverb, (quit to end): ");
-                System.out.flush();
+            this.socket = new Socket(serverName, 45678);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+    }
 
-                // Get the domain to look up
-                request = in.readLine();
-                
-                if (!request.equals("quit")){
-                    requestJokeOrProverb(serverName);
-                }
-                    
-            } while (!request.equals("quit"));
-
-            System.out.println("Cancelled by user request");
+    void closeSocket(){
+        try{
+            this.socket.close();
         } catch(IOException e){
             e.printStackTrace();
         }
     }
-
-
-    static void requestJokeOrProverb(String serverName){
+    
+    void requestJokeOrProverb(){
         
-        Socket sock;
         BufferedReader fromServer;
         PrintStream toServer;
         String textFromServer;
 
         try{
 
-             // Connect to Joke server at given server name & port
-             // Port is hardcoded here at 45678
-             // serverName is defauled to localhost, so in this case 127.0.0.1:45678
-             sock = new Socket(serverName, 45678);
-
              // I/O streams for reading/writing to the server socket
-             fromServer = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-             toServer = new PrintStream(sock.getOutputStream());
+             fromServer = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+             toServer = new PrintStream(this.socket.getOutputStream());
 
              // Send the domain name our request
              toServer.println("next");
@@ -111,12 +90,58 @@ public class JokeClient{
                     System.out.println(textFromServer);
              }
 
-             // Close the socket when finished
-             sock.close();
         }catch(IOException e){
             System.out.println("Socket error");
             e.printStackTrace();
         }
     }
+}
+
+class ClientMain{
+    
+    public static void main(String[] args){
+
+        // Client object
+        JokeClient jokeClient = new JokeClient();
+
+        // To be assigned - either user supplied or defaulted to "localhost"
+        String serverName;
+
+        // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
+        if (args.length < 1) serverName = "localhost";
+        else serverName = args[0];
+
+        System.out.println("Luke Robbins's Joke Client, 1.8\n");
+        System.out.println("Using server: " + serverName + ", Port: 45678");  // Port is hard set
+
+        // Open connection
+        jokeClient.connectToServer(serverName);
+        
+        // Read from stdin to read input
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+        try{
+            String request;
+            do{
+                System.out.print("Enter 'next' to receive the next joke or proverb, (quit to end): ");
+                System.out.flush();
+
+                // Get the domain to look up
+                request = in.readLine();
+                
+                if (!request.equals("quit")){
+                    jokeClient.requestJokeOrProverb();
+                }
+                    
+            } while (!request.equals("quit"));
+
+            System.out.println("Cancelled by user request");
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+        jokeClient.closeSocket();
+    }
+
 }
 
