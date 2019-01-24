@@ -44,10 +44,10 @@ public class JokeClient{
 
     void connectToServer(String serverName){
         // Connect to Joke server at given server name & port
-        // Port is hardcoded here at 45678
-        // serverName is defauled to localhost, so in this case 127.0.0.1:45678
+        // Port is hardcoded here at 4545
+        // serverName is defauled to localhost, so in this case 127.0.0.1:4545
         try{
-            this.socket = new Socket(serverName, 45678);
+            this.socket = new Socket(serverName, 4545);
         } catch(IOException e){
             e.printStackTrace();
         }
@@ -112,7 +112,7 @@ class ClientMain{
         else serverName = args[0];
 
         System.out.println("Luke Robbins's Joke Client, 1.8\n");
-        System.out.println("Using server: " + serverName + ", Port: 45678");  // Port is hard set
+        System.out.println("Using server: " + serverName + ", Port: 4545");  // Port is hard set
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

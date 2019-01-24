@@ -182,13 +182,13 @@ public class JokeServer{
     public static void main(String[] args) throws IOException {
 
         int q_len = 6; // max number of concurrent connections
-        int port = 45678; // "Random" port number - can be any that's valid / not already used
+        int port = 4545; // "Random" port number - can be any that's valid / not already used
         Socket sock; // Client socket object, to be assigned as they come in
 
         // Server socket
         ServerSocket servSock = new ServerSocket(port, q_len);
 
-        System.out.println("Luke Robbins's Inet server 1.8 starting up, listening at port 45678.\n");
+        System.out.println("Luke Robbins's Inet server 1.8 starting up, listening at port 4545.\n");
 
         // Loop "forever", accepting new connections as they come in
         while(true){
