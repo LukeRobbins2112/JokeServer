@@ -27,10 +27,14 @@ In separate windows:
 
 ----------------------------------------------------------*/
 
+import java.awt.TrayIcon.MessageType;
 import java.io.*;  // Include all IO libraries
 import java.net.*; // Include all networking libraries
 import java.util.HashMap;
 import java.util.Random;
+
+//import com.sun.corba.se.spi.activation.Server;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -129,7 +133,7 @@ class Worker extends Thread{
         }
     }
 
-    static void printJokeOrProverb(PrintStream out, int clientID){
+    void printJokeOrProverb(PrintStream out, int clientID){
 
             // Alert client that you are looking up the domain
             out.println("Request to print out joke/proverb received");
@@ -150,7 +154,7 @@ class Worker extends Thread{
                 clientState.put(clientID, cState);
             }
 
-            if (messageType == MESSAGE_TYPE.JOKE){
+            if (Mode.getMode() == MESSAGE_TYPE.JOKE){
 
                 int joke = cState.jokeOrder[cState.jokeIndex++];
                 String response = (jokes[joke]);
@@ -180,6 +184,43 @@ class Worker extends Thread{
 
 }
 
+class Mode{
+    private static MESSAGE_TYPE type = MESSAGE_TYPE.JOKE;
+    
+    public static void toggle(){
+        type = (type == MESSAGE_TYPE.JOKE) ? MESSAGE_TYPE.PROVERB : MESSAGE_TYPE.JOKE;
+        System.out.printf("MODE SET TO %s\n", ((type == MESSAGE_TYPE.JOKE) ? "JOKE" : "PROVERB"));
+    }
+
+    public static MESSAGE_TYPE getMode(){
+        return type;
+    }
+}
+
+class ToggleMode extends Thread{
+
+    private ServerSocket serverSocket;
+
+    public ToggleMode(ServerSocket servSock){
+        this.serverSocket = servSock;
+    }
+
+    public void run(){
+
+        Socket sock;
+
+        try{
+            while(true){
+                sock = this.serverSocket.accept();  // Wait for next client connection, accept when it comes
+                Mode.toggle();
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        
+    }
+}
+
 public class JokeServer{
 
     public static void main(String[] args) throws IOException {
@@ -206,8 +247,13 @@ public class JokeServer{
 
         // Server socket
         ServerSocket servSock = new ServerSocket(serverPort, q_len);
+        ServerSocket adminSock = new ServerSocket(adminPort, q_len);
 
-        System.out.printf("Luke Robbins's Inet server 1.8 starting up, listening at port %d.\n", serverPort);
+        // Admin setup
+        ToggleMode tMode = new ToggleMode(adminSock);
+        tMode.start();
+
+        System.out.printf("Luke Robbins's Joke server 1.8 starting up, listening at port %d.\n", serverPort);
 
         // Loop "forever", accepting new connections as they come in
         while(true){
@@ -219,7 +265,5 @@ public class JokeServer{
         //servSock.close();
     }
 
-    static void acceptConnections(ServerSocket servSock, ConnectionType connType){
-
-    }
+    
 }

@@ -42,7 +42,7 @@ public class JokeClientAdmin{
         else serverName = args[0];
 
         System.out.println("Luke Robbins's Joke Client Admin, 1.8\n");
-        System.out.println("Using server: " + serverName + ", Port: 4545");  // Port is hard set
+        System.out.println("Using server: " + serverName + ", Port: 5050");  // Port is hard set
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -79,9 +79,9 @@ public class JokeClientAdmin{
         try{
 
              // Connect to Joke server at given server name & port
-             // Port is hardcoded here at 4545
-             // serverName is defauled to localhost, so in this case 127.0.0.1:4545
-             sock = new Socket(serverName, 4545);
+             // Port is hardcoded here at 5050
+             // serverName is defauled to localhost, so in this case 127.0.0.1:5050
+             sock = new Socket(serverName, 5050);
 
              // I/O streams for reading/writing to the server socket
              fromServer = new BufferedReader(new InputStreamReader(sock.getInputStream()));
@@ -94,14 +94,14 @@ public class JokeClientAdmin{
              toServer.flush();
 
              // Read response from server (maybe not a great idea to hardcode the # of lines)
-             while((textFromServer = fromServer.readLine()) != null){
-                 // Read a single line
-                 textFromServer = fromServer.readLine();
+            //  while(false || (textFromServer = fromServer.readLine()) != null){
+            //      // Read a single line
+            //      textFromServer = fromServer.readLine();
 
-                 // If a line is not empty, print it to the client
-                 if (textFromServer != null) // Unnecessary now that the null check is in the loop condition
-                    System.out.println(textFromServer);
-             }
+            //      // If a line is not empty, print it to the client
+            //      if (textFromServer != null) // Unnecessary now that the null check is in the loop condition
+            //         System.out.println(textFromServer);
+            //  }
 
              // Close the socket when finished
              sock.close();
