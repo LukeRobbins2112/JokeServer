@@ -34,6 +34,11 @@ import java.util.Random;
 import java.util.Arrays;
 import java.util.Collections;
 
+enum ConnectionType{
+    CLIENT,
+    CLIENT_ADMIN;
+}
+
 enum MESSAGE_TYPE{
     JOKE,
     PROVERB;
@@ -181,12 +186,16 @@ public class JokeServer{
 
     public static void main(String[] args) throws IOException {
 
-        int q_len = 6; // max number of concurrent connections
-        int port = 4545; // "Random" port number - can be any that's valid / not already used
+        int q_len = 6; 
+        int primaryClientPort = 4545; 
+        int secondaryClientPort = 4546;
+        int primaryAdminPort = 5050;
+        int secondaryAdminPort = 5051;
+        
         Socket sock; // Client socket object, to be assigned as they come in
 
         // Server socket
-        ServerSocket servSock = new ServerSocket(port, q_len);
+        ServerSocket servSock = new ServerSocket(primaryClientPort, q_len);
 
         System.out.println("Luke Robbins's Inet server 1.8 starting up, listening at port 4545.\n");
 
@@ -198,5 +207,9 @@ public class JokeServer{
 
         // Our loop runs "forever", but realistically it won't, and we should close that socket
         //servSock.close();
+    }
+
+    static void acceptConnections(ServerSocket servSock, ConnectionType connType){
+
     }
 }
