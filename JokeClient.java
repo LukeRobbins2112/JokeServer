@@ -113,7 +113,10 @@ class ClientMain{
         serverNames[1] = (args.length >= 2) ? args[1] : null;
 
         System.out.println("Luke Robbins's Joke Client, 1.8\n");
-        System.out.printf("Using server: " + serverNames[currServer] + ", Port: %d\n", serverPorts[currServer]);
+        System.out.printf("Server one: " + serverNames[0] + ", Port: %d\n", serverPorts[0]);
+        if (serverNames[1] != null){
+            System.out.printf("Server two: " + serverNames[1] + ", Port: %d\n", serverPorts[1]);
+        }
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -139,7 +142,7 @@ class ClientMain{
                     }
                     else{
                         currServer = (currServer == 0) ? 1 : 0;
-                        System.out.printf("Using server: " + serverNames[currServer] + ", Port: %d\n", serverPorts[currServer]);
+                        System.out.printf("Now communicating with: " + serverNames[currServer] + ", Port: %d\n", serverPorts[currServer]);
                     }
                 }
                     
