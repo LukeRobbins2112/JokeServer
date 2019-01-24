@@ -105,15 +105,15 @@ class ClientMain{
         JokeClient jokeClient = new JokeClient();
 
         // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
-        String serverName;
-        if (args.length < 1) serverName = "localhost";
-        else serverName = args[0];
+        int serverPorts[] = {4545, 4546};
+        String serverNames[] = {null, null};
+        int currServer = 0;
 
-        // Set port
-        int serverPort = (args.length >= 2) ? Integer.parseInt(args[1]) : 4545;
+        serverNames[0] = (args.length >= 1) ? args[0] : "localhost";
+        serverNames[1] = (args.length >= 2) ? args[1] : null;
 
         System.out.println("Luke Robbins's Joke Client, 1.8\n");
-        System.out.printf("Using server: " + serverName + ", Port: %d\n", serverPort);  // Port is hard set
+        System.out.printf("Using server: " + serverNames[currServer] + ", Port: %d\n", serverPorts[currServer]);
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -127,10 +127,20 @@ class ClientMain{
                 // Get the domain to look up
                 request = in.readLine();
                 
-                if (!request.equals("quit")){
-                    jokeClient.connectToServer(serverName, serverPort);
+                if (request.equals("next")){
+                    jokeClient.connectToServer(serverNames[currServer], serverPorts[currServer]);
                     jokeClient.requestJokeOrProverb();
                     jokeClient.closeSocket();
+                }
+                else if (request.equals("s")){
+
+                    if (serverNames[1] == null){
+                        System.out.println("No secondary server available");
+                    }
+                    else{
+                        currServer = (currServer == 0) ? 1 : 0;
+                        System.out.printf("Using server: " + serverNames[currServer] + ", Port: %d\n", serverPorts[currServer]);
+                    }
                 }
                     
             } while (!request.equals("quit"));
