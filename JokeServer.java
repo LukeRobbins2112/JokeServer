@@ -31,6 +31,7 @@ import java.io.*;  // Include all IO libraries
 import java.net.*; // Include all networking libraries
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Arrays;
 import java.util.Collections;
 
 enum MESSAGE_TYPE{
@@ -42,8 +43,8 @@ class ClientState{
 
     public int clientID = -1;
     String clientName;
-    int [] jokeOrder = {0, 1, 2, 3};
-    int [] proverbOrder = {0, 1, 2, 3};
+    Integer [] jokeOrder = {0, 1, 2, 3};
+    Integer [] proverbOrder = {0, 1, 2, 3};
     int jokeIndex = 0;
     int proverbIndex = 0;
 }
@@ -65,10 +66,10 @@ class Worker extends Thread{
         "PD: Hope for the best, prepare for the worst"
     };
     private static String jokes[] = {
-        "What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
-        "I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
-        "How does NASA organize a party? .... They planet.",
-        "What's a pirates favorite letter? ..... You think it's R but it be the C."
+        "JA: What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
+        "JB:  bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
+        "JC: How does NASA organize a party? .... They planet.",
+        "JD: What's a pirates favorite letter? ..... You think it's R but it be the C."
     };
 
     // Constructor - takes Socket object as argument
@@ -137,6 +138,10 @@ class Worker extends Thread{
             else{
                 cState = new ClientState();
                 cState.clientID = clientID;
+
+                // Shuffle initial order before adding new ClientState
+                Collections.shuffle(Arrays.asList(cState.jokeOrder));
+                Collections.shuffle(Arrays.asList(cState.proverbOrder));
                 clientState.put(clientID, cState);
             }
 
@@ -150,6 +155,7 @@ class Worker extends Thread{
 
                 if (cState.jokeIndex == cState.jokeOrder.length){
                     response += (" -- (JOKE CYCLE COMPLETED)\n");
+                    Collections.shuffle(Arrays.asList(cState.jokeOrder));
                     cState.jokeIndex = 0;
                 }
 
@@ -162,6 +168,7 @@ class Worker extends Thread{
 
                 if (cState.proverbIndex == cState.proverbOrder.length){
                     out.println(" -- PROVERB CYCLE COMPLETED\n");
+                    Collections.shuffle(Arrays.asList(cState.proverbOrder));
                     cState.proverbIndex = 0;
                 }
             }
