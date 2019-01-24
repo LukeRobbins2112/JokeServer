@@ -5,3 +5,4 @@ Worker.class
 MESSAGE_TYPE.class
 ClientMain.class
 ClientState.class
+ConnectionType.class

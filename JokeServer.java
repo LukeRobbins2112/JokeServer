@@ -187,17 +187,26 @@ public class JokeServer{
     public static void main(String[] args) throws IOException {
 
         int q_len = 6; 
+
         int primaryClientPort = 4545; 
         int secondaryClientPort = 4546;
         int primaryAdminPort = 5050;
         int secondaryAdminPort = 5051;
-        
+        int serverPort = -1;
+
+        if (args.length > 0 && args[0].equals("secondary")){
+            serverPort = secondaryClientPort;
+        }
+        else{
+            serverPort = primaryClientPort;
+        }
+
         Socket sock; // Client socket object, to be assigned as they come in
 
         // Server socket
-        ServerSocket servSock = new ServerSocket(primaryClientPort, q_len);
+        ServerSocket servSock = new ServerSocket(serverPort, q_len);
 
-        System.out.println("Luke Robbins's Inet server 1.8 starting up, listening at port 4545.\n");
+        System.out.printf("Luke Robbins's Inet server 1.8 starting up, listening at port %d.\n", serverPort);
 
         // Loop "forever", accepting new connections as they come in
         while(true){
