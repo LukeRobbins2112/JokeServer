@@ -6,3 +6,5 @@ MESSAGE_TYPE.class
 ClientMain.class
 ClientState.class
 ConnectionType.class
+ToggleMode.class
+Mode.class
