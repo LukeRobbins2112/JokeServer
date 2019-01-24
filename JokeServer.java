@@ -152,8 +152,6 @@ class Worker extends Thread{
 
             if (messageType == MESSAGE_TYPE.JOKE){
 
-                 
-
                 int joke = cState.jokeOrder[cState.jokeIndex++];
                 String response = (jokes[joke]);
                 
