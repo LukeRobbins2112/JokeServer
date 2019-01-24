@@ -59,16 +59,16 @@ class Worker extends Thread{
 
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     private static String proverbs[] = {
-        "Don’t put off until tomorrow what you can do today",
-        "The pen is mightier than the sword",
-        "Knowledge is power",
-        "Hope for the best, prepare for the worst"
+        "PA: Don’t put off until tomorrow what you can do today",
+        "PB: The pen is mightier than the sword",
+        "PC: Knowledge is power",
+        "PD: Hope for the best, prepare for the worst"
     };
     private static String jokes[] = {
-        "What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
-        "I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
-        "How does NASA organize a party? .... They planet.",
-        "What's a pirates favorite letter? ..... You think it's R but it be the C."
+        "JA: What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
+        "JB: I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
+        "JC: How does NASA organize a party? .... They planet.",
+        "JD: What's a pirates favorite letter? ..... You think it's R but it be the C."
     };
 
     // Constructor - takes Socket object as argument
