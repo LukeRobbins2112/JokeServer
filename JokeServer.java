@@ -103,7 +103,7 @@ class Worker extends Thread{
                 else {
                     try{
                         int clientID = Integer.parseInt(domain);
-                        printJokeOrProverb(in, out, clientID);
+                        printJokeOrProverb(out, clientID);
                     }catch (NumberFormatException e){
                         out.print("Error - expected Client ID");
                     }
