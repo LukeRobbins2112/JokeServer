@@ -34,15 +34,19 @@ public class JokeClientAdmin{
 
     public static void main(String[] args){
 
-        // To be assigned - either user supplied or defaulted to "localhost"
-        String serverName;
-
         // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
-        if (args.length < 1) serverName = "localhost";
-        else serverName = args[0];
+        int serverPorts[] = {5050, 5051};
+        String serverNames[] = {null, null};
+        int currServer = 0;
+
+        serverNames[0] = (args.length >= 1) ? args[0] : "localhost";
+        serverNames[1] = (args.length >= 2) ? args[1] : null;
 
         System.out.println("Luke Robbins's Joke Client Admin, 1.8\n");
-        System.out.println("Using server: " + serverName + ", Port: 5050");  // Port is hard set
+        System.out.printf("Server one: " + serverNames[0] + ", Port: %d\n", serverPorts[0]);
+        if (serverNames[1] != null){
+            System.out.printf("Server two: " + serverNames[1] + ", Port: %d\n", serverPorts[1]);
+        }
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -56,8 +60,17 @@ public class JokeClientAdmin{
                 // Get the domain to look up
                 request = in.readLine();
                 
-                if (!request.equals("quit")){
-                    toggleJokeMode(serverName);
+                if (request.equals("s")){
+                    if (serverNames[1] == null){
+                        System.out.println("No secondary server available");
+                    }
+                    else{
+                        currServer = (currServer == 0) ? 1 : 0;
+                        System.out.printf("Now communicating with: " + serverNames[currServer] + ", Port: %d\n", serverPorts[currServer]);
+                    }
+                }
+                else if (!request.equals("quit")){
+                    toggleJokeMode(serverNames[currServer], serverPorts[currServer]);
                 }
                     
             } while (!request.equals("quit"));
@@ -69,7 +82,7 @@ public class JokeClientAdmin{
     }
 
 
-    static void toggleJokeMode(String serverName){
+    static void toggleJokeMode(String serverName, int port){
         
         Socket sock;
         BufferedReader fromServer;
@@ -81,7 +94,7 @@ public class JokeClientAdmin{
              // Connect to Joke server at given server name & port
              // Port is hardcoded here at 5050
              // serverName is defauled to localhost, so in this case 127.0.0.1:5050
-             sock = new Socket(serverName, 5050);
+             sock = new Socket(serverName, port);
 
              // I/O streams for reading/writing to the server socket
              fromServer = new BufferedReader(new InputStreamReader(sock.getInputStream()));
