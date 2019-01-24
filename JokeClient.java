@@ -42,12 +42,12 @@ public class JokeClient{
         this.clientID = rand; // assign random number to client as ID
     }
 
-    void connectToServer(String serverName){
+    void connectToServer(String serverName, int serverPort){
         // Connect to Joke server at given server name & port
         // Port is hardcoded here at 4545
         // serverName is defauled to localhost, so in this case 127.0.0.1:4545
         try{
-            this.socket = new Socket(serverName, 4545);
+            this.socket = new Socket(serverName, serverPort);
         } catch(IOException e){
             e.printStackTrace();
         }
@@ -104,15 +104,16 @@ class ClientMain{
         // Client object
         JokeClient jokeClient = new JokeClient();
 
-        // To be assigned - either user supplied or defaulted to "localhost"
-        String serverName;
-
         // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
+        String serverName;
         if (args.length < 1) serverName = "localhost";
         else serverName = args[0];
 
+        // Set port
+        int serverPort = (args.length >= 2) ? Integer.parseInt(args[1]) : 4545;
+
         System.out.println("Luke Robbins's Joke Client, 1.8\n");
-        System.out.println("Using server: " + serverName + ", Port: 4545");  // Port is hard set
+        System.out.printf("Using server: " + serverName + ", Port: %d\n", serverPort);  // Port is hard set
         
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -127,7 +128,7 @@ class ClientMain{
                 request = in.readLine();
                 
                 if (!request.equals("quit")){
-                    jokeClient.connectToServer(serverName);
+                    jokeClient.connectToServer(serverName, serverPort);
                     jokeClient.requestJokeOrProverb();
                     jokeClient.closeSocket();
                 }

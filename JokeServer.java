@@ -62,8 +62,8 @@ class Worker extends Thread{
     // Data -> Socket object, assigned based on what Worker is given by the JokeServer
     private Socket socket;
     private static HashMap<Integer, ClientState> clientState = new HashMap<>();
-
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
+    
     private static String proverbs[] = {
         "PA: Don’t put off until tomorrow what you can do today",
         "PB: The pen is mightier than the sword",
@@ -193,12 +193,15 @@ public class JokeServer{
         int primaryAdminPort = 5050;
         int secondaryAdminPort = 5051;
         int serverPort = -1;
+        int adminPort = -1;
 
         if (args.length > 0 && args[0].equals("secondary")){
             serverPort = secondaryClientPort;
+            adminPort = secondaryAdminPort;
         }
         else{
             serverPort = primaryClientPort;
+            adminPort = primaryAdminPort;
         }
 
         Socket sock; // Client socket object, to be assigned as they come in
