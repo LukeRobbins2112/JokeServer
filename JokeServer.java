@@ -66,9 +66,9 @@ class Worker extends Thread{
     };
     private static String jokes[] = {
         "What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
-        "I bought the world’s worst thesaurus yesterday ..... Not only is it terrible, it’s terrible.",
+        "I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
         "How does NASA organize a party? .... They planet.",
-        "What’s a pirates favorite letter? ..... You think it’s R but it be the C."
+        "What's a pirates favorite letter? ..... You think it's R but it be the C."
     };
 
     // Constructor - takes Socket object as argument
@@ -137,23 +137,28 @@ class Worker extends Thread{
 
             if (messageType == MESSAGE_TYPE.JOKE){
 
+                 
+
+                int joke = cState.jokeOrder[cState.jokeIndex++];
+                String response = (jokes[joke]);
+                
+
                 if (cState.jokeIndex == cState.jokeOrder.length){
-                    out.print("JOKE CYCLE COMPLETED\n");
+                    response += (" -- (JOKE CYCLE COMPLETED)\n");
                     cState.jokeIndex = 0;
                 }
 
-                int joke = cState.jokeOrder[cState.jokeIndex++];
-                out.println(jokes[joke]);
+                out.println(response);
             }
             else{
 
+                int proverb = cState.proverbOrder[cState.proverbIndex++];
+                out.print(proverbs[proverb]);
+
                 if (cState.proverbIndex == cState.proverbOrder.length){
-                    out.print("PROVERB CYCLE COMPLETED\n");
+                    out.println("PROVERB CYCLE COMPLETED\n");
                     cState.proverbIndex = 0;
                 }
-
-                int proverb = cState.proverbOrder[cState.proverbIndex++];
-                out.println(proverbs[proverb]);
             }
             
     }
