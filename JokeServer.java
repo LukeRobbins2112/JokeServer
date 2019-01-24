@@ -41,6 +41,7 @@ enum MESSAGE_TYPE{
 class ClientState{
 
     public int clientID = -1;
+    String clientName;
     int [] jokeOrder = {0, 1, 2, 3};
     int [] proverbOrder = {0, 1, 2, 3};
     int jokeIndex = 0;
@@ -54,7 +55,6 @@ class Worker extends Thread{
 
     // Data -> Socket object, assigned based on what Worker is given by the JokeServer
     private Socket socket;
-    private int currClientID;
     private static HashMap<Integer, ClientState> clientState = new HashMap<>();
 
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
@@ -65,10 +65,10 @@ class Worker extends Thread{
         "PD: Hope for the best, prepare for the worst"
     };
     private static String jokes[] = {
-        "JA: What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
-        "JB: I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
-        "JC: How does NASA organize a party? .... They planet.",
-        "JD: What's a pirates favorite letter? ..... You think it's R but it be the C."
+        "What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
+        "I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
+        "How does NASA organize a party? .... They planet.",
+        "What's a pirates favorite letter? ..... You think it's R but it be the C."
     };
 
     // Constructor - takes Socket object as argument
@@ -101,8 +101,13 @@ class Worker extends Thread{
                     out.print("Ending session\n");
                 }
                 else {
-                    // Look up the address, print
-                    printJokeOrProverb(out, Integer.parseInt(domain));
+                    try{
+                        int clientID = Integer.parseInt(domain);
+                        printJokeOrProverb(in, out, clientID);
+                    }catch (NumberFormatException e){
+                        out.print("Error - expected Client ID");
+                    }
+                    
                 }
                 
                
@@ -156,7 +161,7 @@ class Worker extends Thread{
                 out.print(proverbs[proverb]);
 
                 if (cState.proverbIndex == cState.proverbOrder.length){
-                    out.println("PROVERB CYCLE COMPLETED\n");
+                    out.println(" -- PROVERB CYCLE COMPLETED\n");
                     cState.proverbIndex = 0;
                 }
             }
