@@ -8,3 +8,5 @@ ClientState.class
 ConnectionType.class
 ToggleMode.class
 Mode.class
+ClientHelper.class
+*.class
