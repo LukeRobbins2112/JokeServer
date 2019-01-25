@@ -143,6 +143,10 @@ class Worker extends Thread{
             ClientState newClient = new ClientState();
             newClient.clientName = name;
             newClient.clientID = clientID;
+
+            // Shuffle initial order before adding new ClientState
+            Collections.shuffle(Arrays.asList(newClient.jokeOrder));
+            Collections.shuffle(Arrays.asList(newClient.proverbOrder));
             clientState.put(clientID, newClient);
         }
     }
@@ -159,6 +163,9 @@ class Worker extends Thread{
                 cState = clientState.get(clientID);
             }
             else{
+
+                // @TODO with the addition of the name step, all clients at this stage must
+                // Already exist, so this conditional should be removed and just assume that the client exists
                 cState = new ClientState();
                 cState.clientID = clientID;
 

@@ -31,12 +31,12 @@ import java.io.*;   // Import all IO libraries
 import java.net.*;  // Import networking libraries
 import java.util.Random;
 
-public class JokeClient{
+class ClientHelper{
 
     int clientID;
     Socket socket;
 
-    public JokeClient(){
+    public ClientHelper(){
         Random r = new Random();
         int rand = r.nextInt(1000000000);
         this.clientID = rand; // assign random number to client as ID
@@ -114,12 +114,12 @@ public class JokeClient{
     }
 }
 
-class ClientMain{
+class JokeClient{
     
     public static void main(String[] args){
 
         // Client object
-        JokeClient jokeClient = new JokeClient();
+        ClientHelper jokeClient = new ClientHelper();
         String clientName;
 
         // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
