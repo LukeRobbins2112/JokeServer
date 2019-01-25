@@ -69,17 +69,20 @@ class Worker extends Thread{
     private static HashMap<Integer, ClientState> clientState = new HashMap<>();
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     
+    private static String proverbIDs[] = {"PA", "PB", "PC", "P"};
     private static String proverbs[] = {
-        "PA: Don't put off until tomorrow what you can do today",
-        "PB: The pen is mightier than the sword",
-        "PC: Knowledge is power",
-        "PD: Hope for the best, prepare for the worst"
+        "Don't put off until tomorrow what you can do today",
+        "The pen is mightier than the sword",
+        "Knowledge is power",
+        "Hope for the best, prepare for the worst"
     };
-    private static String jokes[] = {
-        "JA: What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
-        "JB:  bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
-        "JC: How does NASA organize a party? .... They planet.",
-        "JD: What's a pirates favorite letter? ..... You think it's R but it be the C."
+
+    private static String jokeIDs[] = {"JA", "JB", "JC", "JD"};
+    private static String jokes[]= {
+        "What did the Buddhist ask the hot dog vendor? ..... 'Make me one with everything.'",
+        "I bought the world's worst thesaurus yesterday ..... Not only is it terrible, it's terrible.",
+        "How does NASA organize a party? .... They planet.",
+        "What's a pirates favorite letter? ..... You think it's R but it be the C."
     };
 
     // Constructor - takes Socket object as argument
@@ -176,12 +179,14 @@ class Worker extends Thread{
             }
 
             String response = this.header;
-            String clientString =  "(" + cState.clientName + ") ";
-            response += clientString;
+            String clientString =  " (" + cState.clientName + ")";
 
             if (Mode.getMode() == MESSAGE_TYPE.JOKE){
 
                 int joke = cState.jokeOrder[cState.jokeIndex++];
+                response += jokeIDs[joke];
+                response += clientString;
+                response += ": ";
                 response += (jokes[joke]);
 
                 if (cState.jokeIndex == cState.jokeOrder.length){
@@ -195,6 +200,9 @@ class Worker extends Thread{
             else{
 
                 int proverb = cState.proverbOrder[cState.proverbIndex++];
+                response += proverbIDs[proverb];
+                response += clientString;
+                response += ": ";
                 response += (proverbs[proverb]);
 
                 if (cState.proverbIndex == cState.proverbOrder.length){
