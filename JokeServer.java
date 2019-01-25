@@ -69,7 +69,7 @@ class Worker extends Thread{
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     
     private static String proverbs[] = {
-        "PA: Don’t put off until tomorrow what you can do today",
+        "PA: Don't put off until tomorrow what you can do today",
         "PB: The pen is mightier than the sword",
         "PC: Knowledge is power",
         "PD: Hope for the best, prepare for the worst"
