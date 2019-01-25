@@ -61,6 +61,23 @@ public class JokeClient{
             e.printStackTrace();
         }
     }
+
+    void sendName(String name){
+
+        PrintStream toServer;
+
+        try{
+            toServer = new PrintStream(this.socket.getOutputStream());
+
+            String data = "NAME:" + name + " " + clientID;
+            toServer.println(data);
+            toServer.flush();
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
     
     void requestJokeOrProverb(){
         
@@ -103,6 +120,7 @@ class ClientMain{
 
         // Client object
         JokeClient jokeClient = new JokeClient();
+        String clientName;
 
         // Set servername to name given as command line arg; if none given then default to "localhost", i.e. 127.0.0.1
         int serverPorts[] = {4545, 4546};
@@ -121,6 +139,19 @@ class ClientMain{
         // Read from stdin to read input
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
+        // Get name
+        try{
+            System.out.println("Please enter your name (single word, no spaces): ");
+            clientName = in.readLine();
+            jokeClient.connectToServer(serverNames[currServer], serverPorts[currServer]);
+            jokeClient.sendName(clientName);
+            jokeClient.closeSocket();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        
+
+        // Enter request loop
         try{
             String request;
             do{

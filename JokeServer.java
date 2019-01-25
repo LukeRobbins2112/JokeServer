@@ -106,6 +106,9 @@ class Worker extends Thread{
                     System.out.println("Client ending session");
                     out.print("Ending session\n");
                 }
+                else if (domain.startsWith("NAME:")){
+                    addNewClient(domain);
+                }
                 else {
                     try{
                         int clientID = Integer.parseInt(domain);
@@ -126,6 +129,19 @@ class Worker extends Thread{
             this.socket.close();
         } catch(IOException ex){
             System.out.println(ex);  // Print any I/O errors that occur during socket opening/closing
+        }
+    }
+
+    void addNewClient(String data){
+
+        String [] input = data.split(" ");
+        String name = input[0].substring(5);
+        int clientID = Integer.parseInt(input[1]);
+        if (!clientState.containsKey(clientID)){
+            ClientState newClient = new ClientState();
+            newClient.clientName = name;
+            newClient.clientID = clientID;
+            clientState.put(clientID, newClient);
         }
     }
 
@@ -153,7 +169,8 @@ class Worker extends Thread{
             if (Mode.getMode() == MESSAGE_TYPE.JOKE){
 
                 int joke = cState.jokeOrder[cState.jokeIndex++];
-                String response = (jokes[joke]);
+                String response = "(" + cState.clientName + ") ";
+                response += (jokes[joke]);
                 
 
                 if (cState.jokeIndex == cState.jokeOrder.length){
@@ -167,13 +184,16 @@ class Worker extends Thread{
             else{
 
                 int proverb = cState.proverbOrder[cState.proverbIndex++];
-                out.print(proverbs[proverb]);
+                String response = "(" + cState.clientName + ") ";
+                response += (proverbs[proverb]);
 
                 if (cState.proverbIndex == cState.proverbOrder.length){
-                    out.println(" -- PROVERB CYCLE COMPLETED\n");
+                    response += (" -- PROVERB CYCLE COMPLETED\n");
                     Collections.shuffle(Arrays.asList(cState.proverbOrder));
                     cState.proverbIndex = 0;
                 }
+
+                out.println(response);
             }
             
     }
