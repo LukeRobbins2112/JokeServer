@@ -102,11 +102,7 @@ class Worker extends Thread{
                 String domain;
                 domain = in.readLine();
                
-                if (domain.equals("TOGGLE_JOKE_PROVERB_MODE")){
-                    messageType = (messageType == MESSAGE_TYPE.JOKE) ? MESSAGE_TYPE.PROVERB : MESSAGE_TYPE.JOKE;
-                    System.out.printf("MODE SET TO %s\n", ((messageType == MESSAGE_TYPE.JOKE) ? "JOKE" : "PROVERB"));
-                 }
-                else if (domain.equals("quit")){
+                if (domain.equals("quit")){
                     System.out.println("Client ending session");
                     out.print("Ending session\n");
                 }
