@@ -65,6 +65,7 @@ class Worker extends Thread{
 
     // Data -> Socket object, assigned based on what Worker is given by the JokeServer
     private Socket socket;
+    private String header;
     private static HashMap<Integer, ClientState> clientState = new HashMap<>();
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     
@@ -84,6 +85,7 @@ class Worker extends Thread{
     // Constructor - takes Socket object as argument
     Worker (Socket s){
         this.socket = s;
+        this.header = (s.getLocalPort() == 4545) ? "" : "<S2> ";
     }
 
     // Overloading Thread function
@@ -166,12 +168,14 @@ class Worker extends Thread{
                 clientState.put(clientID, cState);
             }
 
+            String response = this.header;
+            String clientString =  "(" + cState.clientName + ") ";
+            response += clientString;
+
             if (Mode.getMode() == MESSAGE_TYPE.JOKE){
 
                 int joke = cState.jokeOrder[cState.jokeIndex++];
-                String response = "(" + cState.clientName + ") ";
                 response += (jokes[joke]);
-                
 
                 if (cState.jokeIndex == cState.jokeOrder.length){
                     response += (" -- (JOKE CYCLE COMPLETED)\n");
@@ -184,7 +188,6 @@ class Worker extends Thread{
             else{
 
                 int proverb = cState.proverbOrder[cState.proverbIndex++];
-                String response = "(" + cState.clientName + ") ";
                 response += (proverbs[proverb]);
 
                 if (cState.proverbIndex == cState.proverbOrder.length){

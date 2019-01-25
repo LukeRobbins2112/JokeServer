@@ -143,9 +143,15 @@ class ClientMain{
         try{
             System.out.println("Please enter your name (single word, no spaces): ");
             clientName = in.readLine();
-            jokeClient.connectToServer(serverNames[currServer], serverPorts[currServer]);
+            jokeClient.connectToServer(serverNames[0], serverPorts[0]);
             jokeClient.sendName(clientName);
             jokeClient.closeSocket();
+
+            if (serverNames[1] != null){
+                jokeClient.connectToServer(serverNames[1], serverPorts[1]);
+                jokeClient.sendName(clientName);
+                jokeClient.closeSocket();
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
