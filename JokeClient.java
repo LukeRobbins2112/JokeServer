@@ -14,7 +14,11 @@ In separate windows:
 > java JokeClient
 > java JokeClientAdmin
 
-
+All acceptable commands are displayed on the various consoles, but to be explict - when prompted:
+> enter your name, as a single word without spaces
+> to receive the next joke/proverb, enter "next"
+> to switch servers, enter "s"
+> enter "quit" to end the program
 
 5. List of files needed for running the program.
 

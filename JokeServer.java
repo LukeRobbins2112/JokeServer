@@ -1,6 +1,6 @@
 /*--------------------------------------------------------
 
-1. Luke Robbins / 1/15/2019
+1. Luke Robbins / 1/25/2019
 
 2. Java 1.8
 
@@ -15,13 +15,14 @@ In separate windows:
 > java JokeClient
 > java JokeClientAdmin
 
+All acceptable commands are displayed on the various consoles.
+Hit Control-C to end the server application
 
 5. List of files needed for running the program.
 
- a. checklist-joke.html
- b. JokeServer.java
- c. JokeClient.java
- d. JokeClientAdmin.java
+ a. JokeServer.java
+ b. JokeClient.java
+ c. JokeClientAdmin.java
 
 6. Notes:
 
@@ -69,7 +70,7 @@ class Worker extends Thread{
     private static HashMap<Integer, ClientState> clientState = new HashMap<>();
     private static MESSAGE_TYPE messageType = MESSAGE_TYPE.JOKE;
     
-    private static String proverbIDs[] = {"PA", "PB", "PC", "P"};
+    private static String proverbIDs[] = {"PA", "PB", "PC", "PD"};
     private static String proverbs[] = {
         "Don't put off until tomorrow what you can do today",
         "The pen is mightier than the sword",

@@ -5,7 +5,7 @@
 
 3. Compilation Instructions
 
-> javac JokeClient.java
+> javac JokeClientAdmin.java
 
 4. Run Instructions
 
@@ -14,7 +14,9 @@ In separate windows:
 > java JokeClient
 > java JokeClientAdmin
 
-
+All acceptable commands are displayed on the various consoles, but to be explict - when prompted:
+> Hit the Enter key to toggle joke/proverb mode
+> enter "quit" to end the program
 
 5. List of files needed for running the program.
 
